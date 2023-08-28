@@ -12,25 +12,25 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 	
 	@Override
 	public synchronized void feed() {
-		statistics.food++;
+		statistics.setFood(statistics.getFood() + 1);
 	}
 	
 	@Override
 	public synchronized void play() {
 		int random = (int) Math.random();
-		int tmp = statistics.bored - ( random % 2 );
-		statistics.bored = Math.max(0, tmp);
+		int tmp = statistics.getBored() - ( random % 2 );
+		statistics.setBored(Math.max(0, tmp));
 	}
 	
 	@Override
 	public synchronized String talk() {
-		statistics.bored = Math.max(0, statistics.bored-1);
+		statistics.setBored(Math.max(0, statistics.getBored()-1));
 		return "Hello! I'm talking!";
 	}
 	
 	@Override
 	public synchronized void clean() {
-		statistics.poop = Math.max(0, statistics.poop-1);
+		statistics.setPoop(Math.max(0, statistics.getPoop()-1));
 	}
 	
 	@Override

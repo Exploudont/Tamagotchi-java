@@ -100,8 +100,8 @@ public class Statistics {
 		return sb.toString();
 	}
 	
-	public int food;
-	public int bored;
-	public int poop;
-	public int age;
+	private int food;
+	private int bored;
+	private int poop;
+	private int age;
 }

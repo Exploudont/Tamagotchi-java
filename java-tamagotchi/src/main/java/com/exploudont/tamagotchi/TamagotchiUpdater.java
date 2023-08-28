@@ -15,7 +15,6 @@ public class TamagotchiUpdater extends Thread {
 	 */
 	public TamagotchiUpdater(Tamagotchi tama) {
 		this.tama = tama;
-		// setDaemon(true);
 	}
 	
 	@Override

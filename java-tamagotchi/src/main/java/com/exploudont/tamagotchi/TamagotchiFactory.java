@@ -15,9 +15,6 @@ public final class TamagotchiFactory {
 	public static Tamagotchi create() {
 		Tamagotchi tama = new BaseTamagotchi();
 		
-		//TamagotchiUpdater updater = new TamagotchiUpdater(tama);
-		//updater.start();
-		
 		return tama;
 	}
 }

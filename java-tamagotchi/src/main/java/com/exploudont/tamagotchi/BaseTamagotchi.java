@@ -12,17 +12,16 @@ public class BaseTamagotchi extends AbstractTamagotchi {
 		this.statistics = new Statistics();
 		setStage(Stage.EGG);
 		setStatus(Status.HEALTHY);
-		//this.stage = Stage.EGG;
-		//this.status = Status.HEALTHY;
+		
 		tamagotchi_updater = new TamagotchiUpdater(this);
 		tamagotchi_updater.start();
 	}
 	
 	protected synchronized int sickness() {
-		return statistics.poop
-		 		+ statistics.bored
-		 		+ Math.max(0, statistics.age-32)
-		 		+ Math.abs(statistics.food-2);
+		return statistics.getPoop()
+		 		+ statistics.getBored()
+		 		+ Math.max(0, statistics.getAge()-32)
+		 		+ Math.abs(statistics.getFood()-2);
 	}
 	
 	@Override
@@ -35,15 +34,15 @@ public class BaseTamagotchi extends AbstractTamagotchi {
 	protected synchronized void updateStatistics() {
 		int random;
 		
-		statistics.age++;
+		statistics.setAge(statistics.getAge() + 1);
 		
 		random = (int) Math.random();
-		statistics.bored += random % 2;
+		statistics.setBored(statistics.getBored() + random % 2);
 		
-		statistics.food = Math.max(0, statistics.food-2);
+		statistics.setFood(Math.max(0, statistics.getFood()-2));
 		
 		random = (int) Math.random();
-		statistics.poop += random % 2;
+		statistics.setPoop(statistics.getPoop() + random % 2);
 		
 		callPoopListener();
 	}
