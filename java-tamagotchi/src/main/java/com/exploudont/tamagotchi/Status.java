@@ -10,14 +10,14 @@ public enum Status {
 	HEALTHY,
 	
 	/**
-	 * If the tamagotchi is bored.
-	 */
-	BORED,
-	
-	/**
 	 * If the sickness of the tamagotchi has a bad value.
 	 */
 	SICK,
+
+	/**
+	 * If the sickness of the tamagotchi has a very bad value.
+	 */
+	VERY_SICK,
 	
 	/**
 	 * If the tamagotchi is die.

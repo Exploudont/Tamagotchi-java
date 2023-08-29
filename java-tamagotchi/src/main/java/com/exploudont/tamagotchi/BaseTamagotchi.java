@@ -26,25 +26,11 @@ public class BaseTamagotchi extends AbstractTamagotchi {
 	
 	@Override
 	public synchronized void update() {
-		updateStatistics();
 		updateStatus();
 		updateStage();
-	}
-	
-	protected synchronized void updateStatistics() {
-		int random;
 		
-		statistics.setAge(statistics.getAge() + 1);
-		
-		random = (int) Math.random();
-		statistics.setBored(statistics.getBored() + random % 2);
-		
-		statistics.setFood(Math.max(0, statistics.getFood()-2));
-		
-		random = (int) Math.random();
-		statistics.setPoop(statistics.getPoop() + random % 2);
-		
-		callPoopListener();
+		if(isBored())
+			callBoredListener();
 	}
 	
 	protected synchronized void updateStatus() {
@@ -53,18 +39,35 @@ public class BaseTamagotchi extends AbstractTamagotchi {
 	}
 	
 	protected synchronized void updateStage() {
-		int sickness = sickness();
-		setStage(calculateState(sickness));
+		int age = statistics.getAge();
+		setStage(calculateStage(age));
 	}
 	
 	
-	protected static Stage calculateState(int sickness) {
-		return Stage.ADULT;
+	protected static Stage calculateStage(int age) {
+		
+		if(age < 2)
+			return Stage.EGG;
+		
+		if(age < 4)
+			return Stage.KID;
+		
+		if(age < 30)
+			return Stage.ADULT;
+		
+		return Stage.OLD;
 	}
 	
 	protected static Status calculateStatus(int sickness) {
-		return Status.HEALTHY;
+		if(sickness < 2)
+			return Status.HEALTHY;
+		
+		if(sickness < 4)
+			return Status.SICK;
+		
+		if(sickness < 8)
+			return Status.VERY_SICK;
+		
+		return Status.DIE;
 	}
-	
-	private Thread tamagotchi_updater;
 }

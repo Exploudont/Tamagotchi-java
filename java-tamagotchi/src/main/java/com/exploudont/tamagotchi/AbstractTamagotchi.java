@@ -5,6 +5,8 @@ import com.exploudont.tamagotchi.listener.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import java.util.Random;
+
 /**
  * This class provides a skeletal implementation of the {@code Tamagotchi} interface to minimize the effort required to implement this interface.
  */
@@ -13,6 +15,7 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 	@Override
 	public synchronized void feed() {
 		statistics.setFood(statistics.getFood() + 1);
+		tamagotchi_updater.interrupt();
 	}
 	
 	@Override
@@ -20,17 +23,21 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 		int random = (int) Math.random();
 		int tmp = statistics.getBored() - ( random % 2 );
 		statistics.setBored(Math.max(0, tmp));
+		tamagotchi_updater.interrupt();
 	}
 	
 	@Override
-	public synchronized String talk() {
+	public synchronized void talk() {
 		statistics.setBored(Math.max(0, statistics.getBored()-1));
-		return "Hello! I'm talking!";
+		String phrase = PhraseCreator.getPhrase();
+		callTalkListener(phrase);
+		tamagotchi_updater.interrupt();
 	}
 	
 	@Override
 	public synchronized void clean() {
 		statistics.setPoop(Math.max(0, statistics.getPoop()-1));
+		tamagotchi_updater.interrupt();
 	}
 	
 	@Override
@@ -46,6 +53,11 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 	@Override
 	public synchronized boolean isAlive() {
 		return getStatus() != Status.DIE;
+	}
+	
+	@Override
+	public boolean isBored() {
+		return statistics.getBored() > 2;
 	}
 	
 	@Override
@@ -67,7 +79,27 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 	}
 	
 	@Override
+	public void setTamagotchiTalkListener(TamagotchiTalkListener listener) {
+		this.talk_listener = listener;
+		Logger.global.log(Level.FINE, "Setted the Talk listener.");
+	}
+	
+	@Override
+	public void setTamagotchiBoredListener(TamagotchiBoredListener listener) {
+		this.bored_listener = listener;
+		Logger.global.log(Level.FINE, "Setted the Bored listener.");
+	}
+	
+	@Override
 	public abstract void update();
+	
+	@Override
+	public synchronized void grow() {
+		statistics.setAge(statistics.getAge() + 1);
+		statistics.setBored(statistics.getBored() + rand.nextInt(2));
+		statistics.setFood(Math.max(0, statistics.getFood()-2));
+		statistics.setPoop(statistics.getPoop() + rand.nextInt(2));
+	}
 	
 	/**
 	 * Set the {@code Stage} of the Tamagotchi.
@@ -125,6 +157,28 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 		}
 	}
 	
+	/**
+	 * Call the talk listener if associated.
+	 *
+	 * @param phrase the said phrase
+	 */	
+	protected void callTalkListener(String phrase) {
+		if(talk_listener != null) {
+			Logger.global.log(Level.FINE, "Calling the Talk listener.");
+			talk_listener.onTalk(phrase);
+		}
+	}
+	
+	/**
+	 * Call the bored listener if associated.
+	 */	
+	protected void callBoredListener() {
+		if(bored_listener != null) {
+			Logger.global.log(Level.FINE, "Calling the Bored listener.");
+			bored_listener.onBored();
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -133,6 +187,7 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 		sb.append(statistics.toString());
 		sb.append("\nStage> " + getStage());
 		sb.append("\nStatus> " + getStatus());
+		sb.append("\nis bored> " + isBored());
 		
 		return sb.toString();
 	}
@@ -145,4 +200,9 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 	protected TamagotchiStageListener stage_listener;
 	protected TamagotchiStatusListener status_listener;
 	protected TamgotchiPoopListener poop_listener;
+	protected TamagotchiTalkListener talk_listener;
+	protected TamagotchiBoredListener bored_listener;
+	
+	protected Thread tamagotchi_updater;
+	protected Random rand = new Random();
 }

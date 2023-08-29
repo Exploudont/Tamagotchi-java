@@ -33,7 +33,7 @@ public class Menu {
 			case 2: tama.play();
 					break;
 
-			case 3: System.out.println(tama.talk());
+			case 3: tama.talk();
 					break;
 
 			case 4: tama.clean();

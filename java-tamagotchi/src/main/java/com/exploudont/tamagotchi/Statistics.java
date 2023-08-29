@@ -10,7 +10,7 @@ public class Statistics {
 	 * the object will created with default values.
 	 */
 	public Statistics() {
-		food = 0;
+		food = 2;
 		bored = 0;
 		poop = 0;
 		age = 0;

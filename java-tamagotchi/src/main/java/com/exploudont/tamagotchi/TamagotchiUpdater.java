@@ -20,20 +20,30 @@ public class TamagotchiUpdater extends Thread {
 	@Override
 	public void run() {
 		// 10 minute
-		final long SLEEPING_TIME = 10 * 60 * 1000;
+		//final long SLEEPING_TIME = 10 * 60 * 1000;
+		final long SLEEPING_TIME = 30 * 1000;
+		final long TOLLEANCE = 3 * 1000;
+		
+		long total_time = 0;
 		
 		while(true) {
+			tama.update();
+			
+			long start_time = System.currentTimeMillis();;
+			long delta_time = 0;
 			
 			try {
 				Thread.sleep(SLEEPING_TIME);
 			} catch(InterruptedException e) {}
 			
-			// clean the interrupted status
-			// and exit
-			if(interrupted())
-				break;
+			delta_time = System.currentTimeMillis() - start_time;
+			total_time += delta_time;
 			
-			tama.update();
+			if(total_time < SLEEPING_TIME)
+				continue;
+			
+			total_time = 0;
+			tama.grow();
 			
 			Logger.global.log(Level.FINER, "Updater has update the values");
 		}

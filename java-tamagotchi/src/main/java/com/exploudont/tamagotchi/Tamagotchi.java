@@ -21,11 +21,8 @@ public interface Tamagotchi {
 
 	/**
 	 * Talk with the Tamagotchi pet.
-	 * Return the words it sayd.
-	 *
-	 * @return return the {@code String} rappresentation of the words it sayd.
 	 */	
-	public String talk();
+	public void talk();
 
 	/**
 	 * Clean the Tamagotchi.
@@ -52,6 +49,18 @@ public interface Tamagotchi {
 	 * @return return {@code true} only if the tamagotchi is alive
 	 */
 	public boolean isAlive();
+	
+	/**
+	 * Return if the Tamagotchi is bored.
+	 *
+	 * @return return {@code true} only if the tamagotchi is bored
+	 */
+	public boolean isBored();
+	
+	/**
+	 * Grow the Tamagotchi in age.
+	 */
+	public void grow();
 	
 	/**
 	 * Update the Tamagotchi's values.
@@ -83,4 +92,19 @@ public interface Tamagotchi {
 	 */
 	public void setTamgotchiPoopListener(TamgotchiPoopListener listener);
 	
+	/**
+	 * Set the Tamagotchi listener.
+	 * The listener will be notified if the tamagotchi talk.
+	 *
+	 * @param listener the listener
+	 */
+	public void setTamagotchiTalkListener(TamagotchiTalkListener listener);
+	
+	/**
+	 * Set the Tamagotchi listener.
+	 * The listener will be notified if the tamagotchi is bored.
+	 *
+	 * @param listener the listener
+	 */
+	public void setTamagotchiBoredListener(TamagotchiBoredListener listener);
 }
