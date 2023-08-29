@@ -30,5 +30,5 @@ tama.setTamgaotchiPoopListener(example_poop_listener);
 
 # To-Do
 
-- Add talk phrases (actually can only said one);
 - Create tamagotchi's games package.
+- Create a simple tamagotchi GUI.

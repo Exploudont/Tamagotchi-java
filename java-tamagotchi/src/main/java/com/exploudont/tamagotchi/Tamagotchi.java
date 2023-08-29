@@ -58,7 +58,7 @@ public interface Tamagotchi {
 	public boolean isBored();
 	
 	/**
-	 * Grow the Tamagotchi in age.
+	 * The Tamagotchi grow.
 	 */
 	public void grow();
 	

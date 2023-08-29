@@ -187,7 +187,7 @@ public abstract class AbstractTamagotchi implements Tamagotchi {
 		sb.append(statistics.toString());
 		sb.append("\nStage> " + getStage());
 		sb.append("\nStatus> " + getStatus());
-		sb.append("\nis bored> " + isBored());
+		sb.append("\nBored> " + isBored());
 		
 		return sb.toString();
 	}

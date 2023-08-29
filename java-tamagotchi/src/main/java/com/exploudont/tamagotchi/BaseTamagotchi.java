@@ -45,7 +45,6 @@ public class BaseTamagotchi extends AbstractTamagotchi {
 	
 	
 	protected static Stage calculateStage(int age) {
-		
 		if(age < 2)
 			return Stage.EGG;
 		
